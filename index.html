@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,34 +9,198 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-gradient-light: linear-gradient(135deg, rgba(245, 247, 250, 0.9) 0%, rgba(195, 207, 226, 0.9) 100%);
+            --bg-gradient-dark: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+        }
+        
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-image: url('latarbelakang.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
+            transition: all 0.3s ease;
         }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-gradient-light);
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
+        
+        html.dark body::before {
+            background: var(--bg-gradient-dark);
+        }
+        
         .loader {
             border-top-color: #3498db;
             -webkit-animation: spinner 1.5s linear infinite;
             animation: spinner 1.5s linear infinite;
         }
+        
         @-webkit-keyframes spinner {
             0% { -webkit-transform: rotate(0deg); }
             100% { -webkit-transform: rotate(360deg); }
         }
+        
         @keyframes spinner {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
         .counter-number {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
+        
         .header-text {
             line-height: 1.1;
             letter-spacing: 0.5px;
         }
+        
+        /* Dark mode styles */
+        html.dark .bg-white {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        
+        html.dark .text-gray-800 {
+            color: #f1f5f9;
+        }
+        
+        html.dark .text-gray-700 {
+            color: #e2e8f0;
+        }
+        
+        html.dark .bg-gray-50 {
+            background-color: #334155;
+        }
+        
+        html.dark .border {
+            border-color: #475569;
+        }
+        
+        html.dark .text-gray-400 {
+            color: #94a3b8;
+        }
+        
+        html.dark .from-blue-50 {
+            --tw-gradient-from: #1e3a8a;
+        }
+        
+        html.dark .to-indigo-50 {
+            --tw-gradient-to: #312e81;
+        }
+        
+        html.dark .bg-blue-200 {
+            background-color: #1e40af;
+        }
+        
+        html.dark .text-blue-800 {
+            color: #bfdbfe;
+        }
+        
+        html.dark .bg-blue-300 {
+            background-color: #1d4ed8;
+        }
+        
+        html.dark .bg-red-50 {
+            background-color: #450a0a;
+        }
+        
+        html.dark .border-red-200 {
+            border-color: #b91c1c;
+        }
+        
+        html.dark .text-red-700 {
+            color: #fca5a5;
+        }
+        
+        html.dark .text-red-400 {
+            color: #f87171;
+        }
+        
+        /* Enhanced button hover effect */
+        .search-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        
+        .search-btn:hover::before {
+            height: 300%;
+            width: 300%;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Theme toggle button */
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        @media (max-width: 640px) {
+            .theme-toggle {
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+        }
     </style>
 </head>
-<body class="p-4">
+<body class="p-4 relative">
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" id="sunIcon" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" id="moonIcon" class="h-6 w-6 text-blue-300 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+    </button>
+
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-2xl my-8">
         <div class="p-6">
             <!-- Logo ditambahkan di sini, di atas header -->
@@ -62,7 +226,7 @@
             </div>
             
             <div class="max-w-xs mx-auto">
-                <button id="searchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                <button id="searchBtn" class="search-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                     Cari Loket
                 </button>
             </div>
@@ -105,7 +269,32 @@
     </div>
 
     <script>
+        // Theme toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const html = document.documentElement;
+            
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                html.classList.add('dark');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+            
+            // Toggle theme
+            themeToggle.addEventListener('click', function() {
+                html.classList.toggle('dark');
+                sunIcon.classList.toggle('hidden');
+                moonIcon.classList.toggle('hidden');
+                
+                // Save preference
+                localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            });
+            
+            // Original script for Google Sheets functionality
             const searchBtn = document.getElementById('searchBtn');
             const nisnInput = document.getElementById('nisn');
             const resultDiv = document.getElementById('result');
@@ -290,5 +479,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95243a943063b584',t:'MTc1MDM0ODcxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95244d27014ee78b',t:'MTc1MDM0OTQ3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
