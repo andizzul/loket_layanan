@@ -39,6 +39,11 @@
 <body class="p-4">
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-2xl my-8">
         <div class="p-6">
+            <!-- Logo ditambahkan di sini, di atas header -->
+            <div class="flex justify-center mb-6">
+                <img src="logosekolah.png" alt="Logo SMP Negeri 1 Bulukumba" class="h-24 w-auto">
+            </div>
+            
             <div class="flex flex-col items-center mb-8">
                 <h1 class="text-2xl font-bold text-center text-gray-800 header-text mb-0 tracking-wide">SPMB 2025</h1>
                 <h2 class="text-2xl font-bold text-center text-gray-800 header-text mt-0 tracking-wide">SMP NEGERI 1 BULUKUMBA</h2>
@@ -96,9 +101,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Debug info untuk membantu troubleshooting -->
-            <div id="debug" class="hidden mt-4 p-2 bg-gray-100 text-xs text-gray-600 rounded"></div>
         </div>
     </div>
 
@@ -113,7 +115,6 @@
             const counterNumberElement = document.getElementById('counterNumber');
             const schoolInfoElement = document.getElementById('schoolInfo');
             const pathInfoElement = document.getElementById('pathInfo');
-            const debugDiv = document.getElementById('debug');
             
             // Konfigurasi Google Sheets
             const SHEET_ID = '1_ldkkmwrLwZhw8UK0dWu3JZjBCe3vY6WGK_Dnhe3ghY'; // ID spreadsheet Anda
@@ -143,7 +144,6 @@
                 resultDiv.classList.add('hidden');
                 errorDiv.classList.add('hidden');
                 loadingDiv.classList.remove('hidden');
-                debugDiv.classList.add('hidden');
                 
                 // Coba metode 1: Menggunakan Google Sheets API
                 fetchStudentData(nisn);
@@ -254,21 +254,6 @@
                 } else {
                     loadingDiv.classList.add('hidden');
                     showError();
-                    
-                    // Tampilkan informasi debug
-                    debugDiv.innerHTML = `
-                        <p>Debug info:</p>
-                        <p>NISN yang dicari: ${nisn}</p>
-                        <p>Sheet ID: ${SHEET_ID}</p>
-                        <p>Sheet Name: ${SHEET_NAME}</p>
-                        <p>Semua metode akses data gagal. Pastikan:</p>
-                        <ol>
-                            <li>Google Sheets sudah dipublikasikan ke web</li>
-                            <li>Sheet ID dan nama sheet sudah benar</li>
-                            <li>Format data sesuai (nisn, nama, asal_sekolah, jalur, loket)</li>
-                        </ol>
-                    `;
-                    debugDiv.classList.remove('hidden');
                 }
             }
             
@@ -305,5 +290,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95240a7255bdb590',t:'MTc1MDM0Njc0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95243a943063b584',t:'MTc1MDM0ODcxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
