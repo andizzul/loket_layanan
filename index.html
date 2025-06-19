@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pencarian Loket Pendaftaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .loader {
+            border-top-color: #3498db;
+            -webkit-animation: spinner 1.5s linear infinite;
+            animation: spinner 1.5s linear infinite;
+        }
+        @-webkit-keyframes spinner {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .counter-number {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header-text {
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-2xl my-8">
+        <div class="p-6">
+            <div class="flex flex-col items-center mb-8">
+                <h1 class="text-2xl font-bold text-center text-gray-800 header-text mb-0 tracking-wide">SPMB 2025</h1>
+                <h2 class="text-2xl font-bold text-center text-gray-800 header-text mt-0 tracking-wide">SMP NEGERI 1 BULUKUMBA</h2>
+            </div>
+            
+            <div class="max-w-xs mx-auto mb-4">
+                <label for="nisn" class="block text-sm font-medium text-gray-700 mb-1 text-center">NISN</label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                    <input type="text" id="nisn" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 py-2 sm:text-sm border-gray-300 rounded-md bg-gray-50 border text-center" placeholder="masukkan NISN" style="color: #aaa;">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="max-w-xs mx-auto">
+                <button id="searchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    Cari Loket
+                </button>
+            </div>
+            
+            <div id="loading" class="hidden flex justify-center items-center my-8">
+                <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+            </div>
+            
+            <div id="result" class="hidden mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-md">
+                <p id="greeting" class="text-xl text-gray-800 mb-4 text-center font-semibold"></p>
+                <div class="flex justify-center items-center">
+                    <div class="bg-blue-200 rounded-lg p-6 shadow-lg inline-block">
+                        <p class="text-sm text-blue-800 font-medium mb-2 text-center">LOKET</p>
+                        <div id="counterBox" class="bg-blue-300 rounded-lg p-4 flex justify-center items-center w-32 h-32 mx-auto border border-black">
+                            <span id="counterNumber" class="counter-number text-6xl font-bold text-yellow-400"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p id="schoolInfo" class="text-sm text-gray-600 text-center"></p>
+                    <p id="pathInfo" class="text-sm text-gray-600 text-center"></p>
+                </div>
+            </div>
+            
+            <div id="error" class="hidden mt-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700">
+                            NISN tidak ditemukan. Mohon periksa kembali NISN Anda atau hubungi petugas pendaftaran.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBtn = document.getElementById('searchBtn');
+            const nisnInput = document.getElementById('nisn');
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+            const greetingElement = document.getElementById('greeting');
+            const counterNumberElement = document.getElementById('counterNumber');
+            const schoolInfoElement = document.getElementById('schoolInfo');
+            const pathInfoElement = document.getElementById('pathInfo');
+            
+            // Konfigurasi Google Sheets
+            // GANTI URL INI dengan URL Google Sheets Anda yang sudah dipublikasikan ke web
+            const SHEET_ID = '1_ldkkmwrLwZhw8UK0dWu3JZjBCe3vY6WGK_Dnhe3ghY'; // Ganti dengan ID spreadsheet Anda
+            const SHEET_NAME = 'loket_layanan'; // Ganti dengan nama sheet Anda
+            
+            // URL untuk mengakses Google Sheets sebagai CSV
+            const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+            
+            // Simulasi data dari Google Sheets
+            // Dalam implementasi nyata, Anda akan mengambil data dari Google Sheets
+            const studentData = [
+                { nisn: "1234567890", nama: "AHMAD FAUZI", asal_sekolah: "SMP Negeri 1", jalur: "Prestasi Akademik", loket: 1 },
+                { nisn: "2345678901", nama: "BUDI SANTOSO", asal_sekolah: "SMP Negeri 2", jalur: "Zonasi", loket: 2 },
+                { nisn: "3456789012", nama: "CITRA DEWI", asal_sekolah: "SMP Swasta Harapan", jalur: "Afirmasi", loket: 3 },
+                { nisn: "4567890123", nama: "DIAN PURNAMA", asal_sekolah: "MTs Al-Hidayah", jalur: "Perpindahan Orang Tua", loket: 4 },
+                { nisn: "5678901234", nama: "EKA PUTRA", asal_sekolah: "SMP Negeri 3", jalur: "Prestasi Non-Akademik", loket: 5 }
+            ];
+            
+            searchBtn.addEventListener('click', searchCounter);
+            nisnInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchCounter();
+                }
+            });
+            
+            function searchCounter() {
+                const nisn = nisnInput.value.trim();
+                
+                if (!nisn) {
+                    showError();
+                    return;
+                }
+                
+                // Show loading
+                resultDiv.classList.add('hidden');
+                errorDiv.classList.add('hidden');
+                loadingDiv.classList.remove('hidden');
+                
+                // Untuk implementasi dengan Google Sheets, ganti kode di bawah ini:
+                // fetchDataFromGoogleSheets(nisn);
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    const student = studentData.find(s => s.nisn === nisn);
+                    
+                    loadingDiv.classList.add('hidden');
+                    
+                    if (student) {
+                        // Show result
+                        greetingElement.textContent = `Halo ${student.nama}, Silahkan mengantri di`;
+                        counterNumberElement.textContent = student.loket;
+                        schoolInfoElement.textContent = `Asal Sekolah: ${student.asal_sekolah}`;
+                        pathInfoElement.textContent = `Jalur Pendaftaran: ${student.jalur}`;
+                        
+                        resultDiv.classList.remove('hidden');
+                    } else {
+                        showError();
+                    }
+                }, 1000);
+            }
+            
+            // Fungsi untuk mengambil data dari Google Sheets
+            function fetchDataFromGoogleSheets(nisn) {
+                fetch(SHEET_URL)
+                    .then(response => response.text())
+                    .then(data => {
+                        // Parse CSV data
+                        const rows = data.split('\n');
+                        const headers = rows[0].split(',');
+                        
+                        // Cari NISN yang cocok
+                        let foundStudent = null;
+                        
+                        for (let i = 1; i < rows.length; i++) {
+                            const values = rows[i].split(',');
+                            if (values[0] === nisn) { // Asumsikan NISN ada di kolom pertama
+                                foundStudent = {
+                                    nisn: values[0],
+                                    nama: values[1],
+                                    asal_sekolah: values[2],
+                                    jalur: values[3],
+                                    loket: values[4]
+                                };
+                                break;
+                            }
+                        }
+                        
+                        loadingDiv.classList.add('hidden');
+                        
+                        if (foundStudent) {
+                            // Show result
+                            greetingElement.textContent = `Halo ${foundStudent.nama}, Silahkan mengantri di`;
+                            counterNumberElement.textContent = foundStudent.loket;
+                            schoolInfoElement.textContent = `Asal Sekolah: ${foundStudent.asal_sekolah}`;
+                            pathInfoElement.textContent = `Jalur Pendaftaran: ${foundStudent.jalur}`;
+                            
+                            resultDiv.classList.remove('hidden');
+                        } else {
+                            showError();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        loadingDiv.classList.add('hidden');
+                        showError();
+                    });
+            }
+            
+            function showError() {
+                errorDiv.classList.remove('hidden');
+                resultDiv.classList.add('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9523d363b23be778',t:'MTc1MDM0NDQ4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
